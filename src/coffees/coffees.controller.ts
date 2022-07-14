@@ -8,9 +8,12 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { CoffeesService } from './coffees.service';
 
 @Controller('coffees')
 export class CoffeesController {
+  constructor(private readonly coffeesService: CoffeesService) {}
+
   @Get()
   findAll(@Query() paginationQuery) {
     const { limit, offset } = paginationQuery;
@@ -22,33 +25,27 @@ export class CoffeesController {
       throw new Error('Offset cannot be less than 1');
     }
 
-    let message;
-    if (limit && offset) {
-      message = `Here are ${limit} of your coffees from page: ${offset}`;
-    } else {
-      message = 'Here are all of your coffees';
-    }
-
-    return message;
+    return this.coffeesService.findAll(limit, offset);
   }
 
   @Get(':id')
   find(@Param('id') id: string) {
-    return `This action returns coffee with id: ${id}`;
+    return this.coffeesService.find(+id);
   }
 
   @Post()
   create(@Body() body) {
+    this.coffeesService.create(body);
     return body;
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() body) {
-    return `This action updates coffee with id: ${id}`;
+    return this.coffeesService.update(+id, body);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return `This action will destroy coffee with id: ${id}`;
+    return this.coffeesService.remove(+id);
   }
 }
