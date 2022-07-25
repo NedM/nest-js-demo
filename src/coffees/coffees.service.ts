@@ -8,36 +8,11 @@ import { Coffee } from './entities/coffee.entity';
 import { Event } from '../events/entities/event.entity';
 import { Flavor } from './entities/flavor.entity';
 import { COFFEE_BRANDS } from './coffees.constants';
+import { ConfigType } from '@nestjs/config';
+import coffeesConfig from './config/coffees.config';
 
 @Injectable()
 export class CoffeesService {
-  // private coffees: Coffee[] = [
-  //   {
-  //     id: 1,
-  //     name: 'Test roast',
-  //     brand: 'Green Mountain',
-  //     flavors: ['Burnt', 'Earth', 'Fermentation'],
-  //     roast: 'dark',
-  //     provenance: 'Basement',
-  //   },
-  //   {
-  //     id: 2,
-  //     name: 'Test roast, best roast, boast roast!',
-  //     brand: 'Probulate coffees',
-  //     flavors: ['amazing', 'incredible', 'quaffable'],
-  //     roast: 'entirely',
-  //     provenance: 'Probulation station',
-  //   },
-  //   {
-  //     id: 3,
-  //     name: 'Tea',
-  //     brand: 'False Coffees! Ahahahaha!',
-  //     flavors: ['leaf', 'water'],
-  //     roast: 'none',
-  //     provenance: 'Probulation nation',
-  //   },
-  // ];
-
   constructor(
     @InjectRepository(Coffee)
     private readonly coffeeRepository: Repository<Coffee>,
@@ -45,9 +20,15 @@ export class CoffeesService {
     private readonly flavorRespository: Repository<Flavor>,
     private readonly dataSource: DataSource,
     @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+    @Inject(coffeesConfig.KEY)
+    private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
   ) {
     console.log('Brands:', coffeeBrands);
-    console.log('CoffeesService initialized!');
+    console.log(
+      `CoffeesService initialized!\n  Coffees Config: ${JSON.stringify(
+        coffeesConfiguration,
+      )}`,
+    );
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
