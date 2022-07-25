@@ -29,4 +29,7 @@ export class Coffee {
 
   @Column({ nullable: true })
   provenance: string;
+
+  @Column({ default: 0 })
+  recommendations: number;
 }
