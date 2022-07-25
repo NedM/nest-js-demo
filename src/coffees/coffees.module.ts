@@ -6,6 +6,7 @@ import { Coffee } from './entities/coffee.entity';
 import { Event } from '../events/entities/event.entity';
 import { Flavor } from './entities/flavor.entity';
 import { COFFEE_BRANDS } from './coffees.constants';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
@@ -18,7 +19,16 @@ import { COFFEE_BRANDS } from './coffees.constants';
     },
     {
       provide: COFFEE_BRANDS,
-      useValue: ['Probulate', 'Brio', 'Green Mountain'],
+      useFactory: async (dataSource: DataSource): Promise<string[]> => {
+        // const coffeeBrands = await dataSource.query('SELECT * FROM ...');
+        const coffeeBrands = await Promise.resolve([
+          'Probulate',
+          'Brio',
+          'Green Mountain',
+        ]);
+        console.log('coffeeBrands factory ASYNC function');
+        return coffeeBrands;
+      },
     },
   ],
 })
