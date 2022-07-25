@@ -5,11 +5,21 @@ import { CoffeesService } from './coffees.service';
 import { Coffee } from './entities/coffee.entity';
 import { Event } from '../events/entities/event.entity';
 import { Flavor } from './entities/flavor.entity';
+import { COFFEE_BRANDS } from './coffees.constants';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
-  exports: [],
+  exports: [CoffeesService],
   controllers: [CoffeesController],
-  providers: [CoffeesService],
+  providers: [
+    {
+      provide: CoffeesService,
+      useClass: CoffeesService,
+    },
+    {
+      provide: COFFEE_BRANDS,
+      useValue: ['Probulate', 'Brio', 'Green Mountain'],
+    },
+  ],
 })
 export class CoffeesModule {}
