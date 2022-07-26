@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination_query.dto';
+import { ParseIntPipe } from 'src/common/pipes/parse-int.pipe';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
@@ -25,7 +26,7 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  find(@Param('id') id: number) {
+  find(@Param('id', ParseIntPipe) id: number) {
     return this.coffeesService.find(id);
   }
 
