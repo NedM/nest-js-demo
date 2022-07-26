@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
   Query,
-  SetMetadata,
 } from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination_query.dto';
@@ -21,7 +20,7 @@ export class CoffeesController {
 
   @Public()
   @Get()
-  findAll(@Query() paginationQuery: PaginationQueryDto) {
+  async findAll(@Query() paginationQuery: PaginationQueryDto) {
     return this.coffeesService.findAll(paginationQuery);
   }
 
