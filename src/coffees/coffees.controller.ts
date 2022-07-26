@@ -8,6 +8,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { Protocol } from 'src/common/decorators/protocol.decorator';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination_query.dto';
 import { ParseIntPipe } from 'src/common/pipes/parse-int.pipe';
@@ -21,7 +22,11 @@ export class CoffeesController {
 
   @Public()
   @Get()
-  async findAll(@Query() paginationQuery: PaginationQueryDto) {
+  async findAll(
+    @Protocol('default') protocol: string,
+    @Query() paginationQuery: PaginationQueryDto,
+  ) {
+    console.log(`Observing protocol: ${protocol}`);
     return this.coffeesService.findAll(paginationQuery);
   }
 
