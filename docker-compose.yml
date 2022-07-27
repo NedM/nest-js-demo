@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    container_name: postgres
+    container_name: postgres_db
     image: postgres
     restart: always
     ports:
@@ -12,9 +12,21 @@ services:
     networks:
     - postgres
 
+  test-db:
+    container_name: postgres_test_db
+    image: postgres
+    restart: always
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_PASSWORD: pass123
+    networks:
+    - postgres
+
   pgadmin:
     links:
-    - db:postgres
+    - db:postgres_db
+    - db:postgres_test_db
     container_name: pgadmin
     image: dpage/pgadmin4
     ports:
