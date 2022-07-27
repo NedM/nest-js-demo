@@ -20,15 +20,15 @@ export class CoffeesService {
     private readonly flavorRespository: Repository<Flavor>,
     private readonly dataSource: DataSource,
     @Inject(COFFEE_BRANDS) coffeeBrands: string[],
-    @Inject(coffeesConfig.KEY)
-    private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
+    // @Inject(coffeesConfig.KEY)
+    // private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
   ) {
     console.log('Brands:', coffeeBrands);
-    console.log(
-      `CoffeesService initialized!\n  Coffees Config: ${JSON.stringify(
-        coffeesConfiguration,
-      )}`,
-    );
+    // console.log(
+    //   `CoffeesService initialized!\n  Coffees Config: ${JSON.stringify(
+    //     coffeesConfiguration,
+    //   )}`,
+    // );
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
